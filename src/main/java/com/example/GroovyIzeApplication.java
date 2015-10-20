@@ -8,12 +8,12 @@ public class GroovyIzeApplication {
         FurnitureWarehouse warehouse = new FurnitureWarehouse();
         warehouse.setName("My Warehouse");
 
-        warehouse.addToInventory("chair");
-        warehouse.addToInventory("lamp");
-        warehouse.addToInventory("chest");
-        warehouse.addToInventory("mirror");
+        warehouse.addToInventory(new Furniture("chair", 10));
+        warehouse.addToInventory(new Furniture("lamp", 20));
+        warehouse.addToInventory(new Furniture("chest", 30));
+        warehouse.addToInventory(new Furniture("mirror", 40));
 
-        List<String> inventory = warehouse.getInventory();
+        List<Furniture> inventory = warehouse.getInventory();
 
         System.out.println("Here's the inventory");
         for (int i = 0; i < inventory.size(); ++i) {
@@ -21,9 +21,8 @@ public class GroovyIzeApplication {
         }
 
         // I have a lot of beds to add.
-        for (int i = 0; i < 8; ++i) {
-            warehouse.addToInventory("bed");
-        }
+        warehouse.addToInventory(8, new Furniture("bed", 15));
+
 
         inventory = warehouse.getInventory();
         System.out.println("Here's the inventory");
@@ -32,6 +31,7 @@ public class GroovyIzeApplication {
         }
 
         System.out.println("warehouse = " + warehouse);
+        System.out.println("value = " + warehouse.totalInventoryValue());
     }
 
 }

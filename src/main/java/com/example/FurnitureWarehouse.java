@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class FurnitureWarehouse {
     private String name;
-    private List<String> inventory = new ArrayList<>();
+    private List<Furniture> inventory = new ArrayList<>();
 
     public void setName(String name) {
         this.name = name;
@@ -21,10 +21,12 @@ public class FurnitureWarehouse {
         return this.name;
     }
 
-    public void setIventory(List<String> inventory) {
+    public void setInventory(List<Furniture> furns) {
         this.inventory.clear();
-        if (inventory != null && !inventory.isEmpty()) {
-            this.inventory.addAll(inventory);
+        if (furns != null && !furns.isEmpty()) {
+            for (Furniture f : furns) {
+                this.inventory.add(f.copy());
+            }
         }
     }
 
@@ -32,9 +34,17 @@ public class FurnitureWarehouse {
         return this.inventory.size();
     }
 
-    public void addToInventory(String newThing) {
-        if (newThing != null && !newThing.isEmpty()) {
+    public void addToInventory(Furniture newThing) {
+        if (newThing != null && newThing.getName() != null && !newThing.getName().isEmpty()) {
             this.inventory.add(newThing);
+        }
+    }
+
+    public void addToInventory(int howMany, Furniture newThing) {
+        if (howMany > 0) {
+            for (int i = 0; i < howMany; ++i) {
+                addToInventory(newThing);
+            }
         }
     }
 
@@ -43,11 +53,11 @@ public class FurnitureWarehouse {
             return 0;
         }
         int removed = 0;
-        Iterator<String> iter = this.inventory.iterator();
+        Iterator<Furniture> iter = this.inventory.iterator();
         while (iter.hasNext()) {
-            String currentThing = iter.next();
-            if (currentThing != null && !currentThing.isEmpty() &&
-                    currentThing.equalsIgnoreCase(toRemove)) {
+            Furniture currentFurn = iter.next();
+
+            if (currentFurn != null && currentFurn.equals(toRemove)) {
                 iter.remove();
                 ++removed;
             }
@@ -55,11 +65,26 @@ public class FurnitureWarehouse {
         return removed;
     }
 
-    public List<String> getInventory() {
-        return new ArrayList(this.inventory);
+    public int totalInventoryValue() {
+        int ret = 0;
+
+        for (Furniture furn : inventory) {
+            ret += furn.getPrice();
+        }
+
+        return ret;
     }
 
-    public List<String> findPiece(String search) {
+    public List<Furniture> getInventory() {
+        List<Furniture> ret = new ArrayList<>(inventory.size());
+        for (Furniture furn : inventory) {
+            ret.add(furn.copy());
+        }
+
+        return ret;
+    }
+
+    public List<Furniture> findPiece(String search) {
         if (search == null) {
             return Collections.emptyList();
 
@@ -68,16 +93,16 @@ public class FurnitureWarehouse {
 
         } else {
 
-            List<String> founds = new ArrayList<>(this.inventory.size());
+            List<Furniture> founds = new ArrayList<>(this.inventory.size());
 
-            for (String i : inventory) {
-                if (i.toLowerCase().startsWith(search.toLowerCase())) {
-                    founds.add(i);
-                }
+            for (Furniture furn : inventory) {
+                if (furn.getName().contains(search))
+                    founds.add(furn.copy());
             }
-
             return founds;
         }
+
+
     }
 
     @Override
