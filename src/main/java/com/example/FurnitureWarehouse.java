@@ -57,7 +57,7 @@ public class FurnitureWarehouse {
         while (iter.hasNext()) {
             Furniture currentFurn = iter.next();
 
-            if (currentFurn != null && currentFurn.equals(toRemove)) {
+            if (currentFurn != null && currentFurn.getName().equals(toRemove)) {
                 iter.remove();
                 ++removed;
             }
