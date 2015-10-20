@@ -48,6 +48,14 @@ public class FurnitureWarehouse {
         }
     }
 
+    public Furniture getFurniturePiece(int index) {
+        if (this.inventory != null && this.inventory.size() > index){
+            return this.inventory.get(index);
+        } else {
+            return null;
+        }
+    }
+
     public int removeFromInventory(String toRemove) {
         if (this.inventory.isEmpty()) {
             return 0;
@@ -96,31 +104,29 @@ public class FurnitureWarehouse {
             List<Furniture> founds = new ArrayList<>(this.inventory.size());
 
             for (Furniture furn : inventory) {
-                if (furn.getName().contains(search))
-                    founds.add(furn.copy());
+                if (furn.getName().contains(search)) { founds.add(furn.copy()); }
             }
             return founds;
         }
-
 
     }
 
     @Override
     public String toString() {
         return "FurnitureWarehouse{" +
-                "name='" + name + '\'' +
-                ", inventory=" + inventory +
-                '}';
+               "name='" + name + '\'' +
+               ", inventory=" + inventory +
+               '}';
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) { return true; }
+        if (o == null || getClass() != o.getClass()) { return false; }
 
         FurnitureWarehouse warehouse = (FurnitureWarehouse) o;
 
-        if (name != null ? !name.equals(warehouse.name) : warehouse.name != null) return false;
+        if (name != null ? !name.equals(warehouse.name) : warehouse.name != null) { return false; }
         return !(inventory != null ? !inventory.equals(warehouse.inventory) : warehouse.inventory != null);
 
     }

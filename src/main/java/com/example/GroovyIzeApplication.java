@@ -23,7 +23,6 @@ public class GroovyIzeApplication {
         // I have a lot of beds to add.
         warehouse.addToInventory(8, new Furniture("bed", 15));
 
-
         inventory = warehouse.getInventory();
         System.out.println("Here's the inventory");
         for (int i = 0; i < inventory.size(); ++i) {
@@ -32,6 +31,15 @@ public class GroovyIzeApplication {
 
         System.out.println("warehouse = " + warehouse);
         System.out.println("value = " + warehouse.totalInventoryValue());
+
+        Furniture furn = warehouse.getFurniturePiece(3);
+        DeliveryService svc = new SimpleDeliveryServiceImpl();
+
+        System.out.println("Sending a delivery order");
+        String order = svc.deliver(furn, "123 Main St");
+        System.out.println("order = " + order);
+        System.out.println("Status: " + svc.deliveryStatus(order));
+
     }
 
 }
