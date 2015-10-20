@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+if [ ! -d ./.m2 ]; then
+    cat <<EOF
+    ###########
+    # Warning #
+    ###########
+
+There is no maven repository in this project.  If you continue one
+will be created, but it'll be "fresh" and download the internet.  It
+will also be owned by root.
+
+Normally, this is fine.  
+
+If you want to continue, hit enter.  If you don't, ^C out and install
+maven locally.
+EOF
+    echo -n '-->'
+    read ans
+fi
+
+docker run -it --rm --name groovyize \
+       -v "$PWD"/.m2/repository:/root/.m2/repository \
+       -v "$PWD":/usr/src/mymaven -w /usr/src/mymaven maven \
+       mvn $*
